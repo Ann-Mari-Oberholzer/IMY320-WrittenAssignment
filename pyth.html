@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pythagorean Theorem Calculator</title>
+</head>
+<body>
+  <h1>Pythagorean Theorem Calculator</h1>
+  <p>Enter the lengths of sides <i>a</i> and <i>b</i>:</p>
+  
+  <input type="number" id="a" placeholder="Side a">
+  <input type="number" id="b" placeholder="Side b">
+  <button onclick="calculate()">Calculate</button>
+  
+  <h2>Result: <span id="result">?</span></h2>
+
+  <script>
+    var Module = {
+      onRuntimeInitialized: function() {
+        // Wrap the C++ function when WASM is ready
+        window.pyth = Module.cwrap('pyth', 'number', ['number', 'number']);
+      }
+    };
+
+    function calculate() {
+      const a = parseFloat(document.getElementById("a").value);
+      const b = parseFloat(document.getElementById("b").value);
+
+      if (isNaN(a) || isNaN(b)) {
+        alert("Please enter valid numbers!");
+        return;
+      }
+
+      if (typeof window.pyth !== "function") {
+        alert("WASM not ready yet, please wait a moment.");
+        return;
+      }
+
+      const c = window.pyth(a, b);
+      document.getElementById("result").textContent = c.toFixed(2);
+    }
+  </script>
+
+  <script src="pythagoras.js"></script>
+</body>
+</html>
