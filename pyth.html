@@ -17,7 +17,6 @@
   <script>
     var Module = {
       onRuntimeInitialized: function() {
-        // Wrap the C++ function when WASM is ready
         window.pyth = Module.cwrap('pyth', 'number', ['number', 'number']);
       }
     };
@@ -40,7 +39,6 @@
       document.getElementById("result").textContent = c.toFixed(2);
     }
   </script>
-
   <script src="pythagoras.js"></script>
 </body>
 </html>
